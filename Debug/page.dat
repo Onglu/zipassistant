@@ -1,0 +1,191 @@
+{
+    "backgroundColor": "#FFFFFFFF",
+    "id": "70a60165-c7fb-4d9a-bbe7-7751bb34cf0d",
+    "landscapeCount": 1,
+    "layers": [
+        {
+            "frame": {
+                "height": 1280,
+                "width": 720,
+                "x": 360,
+                "y": 640
+            },
+            "id": "7dfbee23-f957-43fc-9494-7b1ffccae153",
+            "name": "背景",
+            "opacity": 1,
+            "orientation": 0,
+            "rotation": 0,
+            "type": 0
+        },
+        {
+            "frame": {
+                "height": 1290,
+                "width": 1778,
+                "x": 217,
+                "y": 635
+            },
+            "id": "a1f0a640-e77e-4f0b-acd0-fb8e2c6d6fb6",
+            "name": "周边渐变 图层",
+            "opacity": 1,
+            "orientation": 1,
+            "rotation": 0,
+            "type": 3
+        },
+        {
+            "frame": {
+                "height": 1191,
+                "width": 1787,
+                "x": -18,
+                "y": 595
+            },
+            "id": "de10bbf7-a629-4d45-ace9-01a99e6322b8",
+            "maskLayer": "ef21ccf8-b73a-5e56-bdfa-12baaf7433c9",
+            "name": "人物图片 图层@photo",
+            "opacity": 1,
+            "orientation": 1,
+            "rotation": 0,
+            "type": 1
+        },
+        {
+            "frame": {
+                "height": 446,
+                "width": 333,
+                "x": 516,
+                "y": 918
+            },
+            "id": "9ba8cea0-5e9a-425e-a411-0d8fc0de9bd3",
+            "name": "淡蓝色椭圆 图层",
+            "opacity": 0,
+            "orientation": 0,
+            "rotation": 0,
+            "type": 0
+        },
+        {
+            "frame": {
+                "height": 416,
+                "width": 311,
+                "x": 498,
+                "y": 936
+            },
+            "id": "fca4d3de-e34f-45bb-9f7c-2fdbc1af549c",
+            "name": "蓝色椭圆 图层",
+            "opacity": 1,
+            "orientation": 0,
+            "rotation": 0,
+            "type": 0
+        },
+        {
+            "frame": {
+                "height": 377,
+                "width": 280,
+                "x": 501,
+                "y": 936
+            },
+            "id": "a509449e-ea39-468c-baf6-486f5f137c07",
+            "name": "椭圆相框 图层",
+            "opacity": 1,
+            "orientation": 0,
+            "rotation": 0,
+            "type": 3
+        },
+        {
+            "frame": {
+                "height": 427,
+                "width": 284,
+                "x": 502,
+                "y": 926
+            },
+            "id": "3dc4afa4-fe23-4355-9579-0a4d2bfb13d9",
+            "maskLayer": "a509449e-ea39-468c-baf6-486f5f137c07",
+            "name": "底部图片 图层@photo",
+            "opacity": 1,
+            "orientation": 0,
+            "rotation": 0,
+            "type": 1
+        },
+        {
+            "frame": {
+                "height": 208,
+                "width": 509,
+                "x": 604,
+                "y": 134
+            },
+            "id": "d7b6c8d0-0683-4b5a-8c24-9811f0843b80",
+            "name": "树枝 图层",
+            "opacity": 1,
+            "orientation": 1,
+            "rotation": 0,
+            "type": 0
+        },
+        {
+            "frame": {
+                "height": 421,
+                "width": 112,
+                "x": 80,
+                "y": 310
+            },
+            "id": "86a4fde5-a9e2-4d26-b59b-d5e05c3f01c7",
+            "name": "花香 图层",
+            "opacity": 0,
+            "orientation": 0,
+            "rotation": 0,
+            "type": 0
+        },
+        {
+            "frame": {
+                "height": 1492,
+                "width": 2204,
+                "x": -226,
+                "y": 607
+            },
+            "id": "ef21ccf8-b73a-5e56-bdfa-12baaf7433c9",
+            "name": "人物图片 图层@photo(lmask)",
+            "opacity": 1,
+            "orientation": 1,
+            "rotation": 0,
+            "type": 3
+        }
+    ],
+    "name": "花香婚纱",
+    "pagetype": 0,
+    "portraitCount": 1,
+    "size": {
+        "height": 1280,
+        "width": 720
+    },
+    "tags": [
+        {
+            "name": "写真",
+            "type": "种类"
+        },
+        {
+            "name": "婚纱",
+            "type": "种类"
+        },
+        {
+            "name": "有照片框",
+            "type": "版式"
+        },
+        {
+            "name": "有遮罩",
+            "type": "版式"
+        },
+        {
+            "name": "灰色",
+            "type": "色系"
+        },
+        {
+            "name": "蓝色",
+            "type": "色系"
+        },
+        {
+            "name": "青色",
+            "type": "色系"
+        },
+        {
+            "name": "欧美风情",
+            "type": "风格"
+        }
+    ],
+    "ver": "1.0"
+}

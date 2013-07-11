@@ -12,11 +12,12 @@
 
 void AddFiles(HZIP hz, const TCHAR *lpPath)
 {
-	if (!hz)
+	if (!hz || !lpPath || !wcslen(lpPath))
 	{
 		return;
 	}
 
+	static const TCHAR *lpDir = lpPath;
 	TCHAR szFind[MAX_PATH] = {0};
 	wcscpy(szFind, lpPath);
 	wcscat(szFind, L"*.*");
@@ -40,13 +41,24 @@ void AddFiles(HZIP hz, const TCHAR *lpPath)
 		}
 		else
 		{
-			TCHAR loc[MAX_PATH] = {0};
-			swprintf(loc, L"%s%s", lpPath, ffd.cFileName);
-			ZipAdd(hz, ffd.cFileName, loc);
-			//printf("filename: %ls, %ls\n", ffd.cFileName, loc);
+			TCHAR file[MAX_PATH] = {0}, zfn[MAX_PATH] = {0};
+			swprintf(file, L"%s%s", lpPath, ffd.cFileName);
+
+			if (wcsicmp(lpDir, lpPath))
+			{
+				int s = wcslen(lpDir);
+				wcsncpy(zfn, &lpPath[s], wcslen(lpPath) - s);
+				wcscat(zfn, ffd.cFileName);
+			}
+			else
+			{
+				wcscpy(zfn, ffd.cFileName);
+			}
+
+			ZipAdd(hz, zfn, file);
 		}
 
-		if (!FindNextFile(hFind, &ffd))break;
+		if (!FindNextFile(hFind, &ffd)) break;
 	}
 
 	FindClose(hFind);
@@ -86,7 +98,8 @@ ZRESULT AppendFile(const TCHAR *zipfn, const TCHAR *zename, const TCHAR *zefn)
 
 	// hzdst is created in the system pagefile
 	// Now go through the old zip, unzipping each item into a memory buffer, and adding it to the new one
-	char *buf=0; unsigned int bufsize=0; // we'll unzip each item into this memory buffer
+	char *buf=0; 
+	unsigned int bufsize=0; // we'll unzip each item into this memory buffer
 	ZIPENTRY ze; 
 	ZRESULT zr=GetZipItem(hzsrc,-1,&ze); 
 	int numitems=ze.index; 
@@ -122,11 +135,11 @@ ZRESULT AppendFile(const TCHAR *zipfn, const TCHAR *zename, const TCHAR *zefn)
 		if (ze.unc_size>(long)bufsize) 
 		{
 			if (buf!=0) 
-				delete[] buf; 
-			bufsize=ze.unc_size*2; 
+				delete[] buf;
+			bufsize=ze.unc_size;
 			buf=new char[bufsize];
+			memset(buf, 0, bufsize);
 		}
-		memset(buf, 0, bufsize);
 		zr=UnzipItem(hzsrc,i,buf,bufsize); 
 		if (zr!=ZR_OK) 
 		{
@@ -141,6 +154,7 @@ ZRESULT AppendFile(const TCHAR *zipfn, const TCHAR *zename, const TCHAR *zefn)
 			CloseZip(hzdst); 
 			return zr;
 		}
+		bufsize = 0;
 	}
 
 	delete[] buf;
@@ -475,13 +489,12 @@ char *U2A(const char *szSrc)
 // zipassistant -d pack.zip password
 int _tmain(int argc, _TCHAR* argv[])
 {
-	//argc = 4;
-	//argv[0] = L"tmaker.exe";
-	//argv[1] = L"-r";
-	//argv[2] = L"G:\\Projects\\zipassistant\\MP_C_P4_201306171515_.xcmb";
-	//argv[2] = L"G:\\Projects\\zipassistant\\Debug\\test.xcmb";
-	//argv[3] = L"G:\\Projects\\zipassistant\\Debug\\test";
-	//argv[3] = L"page.dat";
+// 	argc = 4;
+// 	argv[0] = L"tmaker.exe";
+// 	argv[1] = L"-a";
+// 	argv[2] = L"G:\\Projects\\zipassistant\\Debug\\pkg.xcmb";
+// 	//argv[3] = L"G:\\Projects\\zipassistant\\Debug\\pkg";
+// 	argv[3] = L"page.dat";
 	//argv[3] = L"123123";
 	//argv[3] = L"新建文本文档.txt";
 
@@ -510,14 +523,13 @@ int _tmain(int argc, _TCHAR* argv[])
 		int j = 0;
 		while (p[j]){j++;}
 		wcsncpy(file[i - 2], p, j);
-		//printf("%d: %ls ", i, file[i - 2]);
 	}
 
 	if ('C' == opt[1] || 'c' == opt[1])
 	{
 		if (NULL == (hz = CreateZip(file[0], 0)))
 		{
-			//printf("unable to create the zip file!\n", file[0]);
+			printf("unable to compress \"%ls\"\n", file[0]);
 			return 1;
 		}
 
@@ -533,7 +545,6 @@ int _tmain(int argc, _TCHAR* argv[])
 		else
 		{
 			ZipAdd(hz, getFileName(file[1], name), file[1]);
-			//printf("%ls\n", name);
 		}
 
 		printf("compress:%ls", file[1]);
