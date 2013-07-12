@@ -489,21 +489,28 @@ char *U2A(const char *szSrc)
 // zipassistant -d pack.zip password
 int _tmain(int argc, _TCHAR* argv[])
 {
-// 	argc = 4;
-// 	argv[0] = L"tmaker.exe";
-// 	argv[1] = L"-a";
-// 	argv[2] = L"G:\\Projects\\zipassistant\\Debug\\pkg.xcmb";
-// 	//argv[3] = L"G:\\Projects\\zipassistant\\Debug\\pkg";
-// 	argv[3] = L"page.dat";
+	//argc = 4;
+	//argv[0] = L"tmaker.exe";
+	//argv[1] = L"-a";
+	//argv[2] = L"\"D:\\UPX Shell\\test_psd\\20130712\\1_png\\\"";
+	//argv[2] = L"G:\\Projects\\zipassistant\\Debug\\pkg.xcmb";
+	//argv[3] = L"G:\\Projects\\zipassistant\\Debug\\pkg";
+	//argv[3] = L"\"D:\\UPX Shell\\test_psd\\20130712\\1_png\\1.psd.png\"";
+	//argv[3] = L"page.dat";
 	//argv[3] = L"123123";
 	//argv[3] = L"新建文本文档.txt";
 
-	if (3 > argc)
+	TCHAR opt[8] = {0}, file[2][MAX_PATH] = {0}, name[MAX_PATH] = {0};
+	HZIP hz = NULL;
+
+	//printf("options: %d\n", argc);
+
+	if (3 > argc || 4 < argc)
 	{
+		printf("invalid parameter options.\n");
 		return 1;
 	}
 
-	TCHAR opt[8] = {0}, file[2][MAX_PATH] = {0}, name[MAX_PATH] = {0};
 	wcsncpy(opt, argv[1], 2);
 	if (wcsicmp(opt, L"-c") && wcsicmp(opt, L"-a") && wcsicmp(opt, L"-x") && wcsicmp(opt, L"-u") 
 		&& wcsicmp(opt, L"-l") && wcsicmp(opt, L"-r") && wcsicmp(opt, L"-e") && wcsicmp(opt, L"-d"))
@@ -514,16 +521,16 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	setlocale(LC_CTYPE, "chs");
 
-	HZIP hz = NULL;
-
 	for (int i = 2; i < argc; i++)
 	{
 		TCHAR buf[MAX_PATH] = {0};
 		const TCHAR *p = argv[i];
-		int j = 0;
-		while (p[j]){j++;}
-		wcsncpy(file[i - 2], p, j);
+		int j = '"' == p[0] ? 1 : 0, k = j;
+		while (p[k]){k++;}
+		wcsncpy(file[i - 2], &p[j], 0 < j ? wcslen(p) - 2 : k);
 	}
+
+	//printf("files: %ls, %ls\n", file[0], file[1]);
 
 	if ('C' == opt[1] || 'c' == opt[1])
 	{
@@ -692,4 +699,3 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	return 0;
 }
-
