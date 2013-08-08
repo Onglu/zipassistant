@@ -1,4 +1,4 @@
-// zipassistant.cpp : ¶¨Òå¿ØÖÆÌ¨Ó¦ÓÃ³ÌĞòµÄÈë¿Úµã¡£
+ï»¿// zipassistant.cpp : å®šä¹‰æ§åˆ¶å°åº”ç”¨ç¨‹åºçš„å…¥å£ç‚¹ã€‚
 //
 
 #include "stdafx.h"
@@ -305,13 +305,13 @@ int EncryptZip(TCHAR *filename, const char *password)
 		return 1;
 	}  
 
-	//¶¯Ì¬·ÖÅä´ı¼ÓÃÜ×Ö·û´®  
+	//åŠ¨æ€åˆ†é…å¾…åŠ å¯†å­—ç¬¦ä¸²  
 	char * Buff1 = (char*)malloc(sizeof(char) * FileSize);
 	memset(Buff1, 0, sizeof(Buff1)); 
 
 	DWORD dwSizeOfRead = 0;  
 	BOOL b = ReadFile(hFile, Buff1, FileSize, &dwSizeOfRead, NULL);  
-	//¶ÁÈ¡ÎÄ¼şÄÚÈİ  
+	//è¯»å–æ–‡ä»¶å†…å®¹  
 	if ((dwSizeOfRead != FileSize) || (!b))  
 	{  
 		CloseHandle(hFile);  
@@ -319,18 +319,18 @@ int EncryptZip(TCHAR *filename, const char *password)
 		return 1;
 	}  
 
-	//×Ö·û´®²¹Î»²Ù×÷  
+	//å­—ç¬¦ä¸²è¡¥ä½æ“ä½œ  
 	int add;  
 	if (FileSize / 16 == 0)  
 		add = 16;  
 	else  
 		add = 16 - FileSize % 16;  
 
-	//¶¯Ì¬·ÖÅä²¹Î»ºó´ı¼ÓÃÜ×Ö·û´®  
+	//åŠ¨æ€åˆ†é…è¡¥ä½åå¾…åŠ å¯†å­—ç¬¦ä¸²  
 	char * Buff2 = (char*) malloc(sizeof(char) * (FileSize + add));  
 	memset(Buff2, 0, sizeof(Buff2));  
 
-	//½øĞĞ²¹Æë  
+	//è¿›è¡Œè¡¥é½  
 	for(int i = 0; i < FileSize + add; i++)  
 	{  
 		if(i < FileSize)  
@@ -339,12 +339,12 @@ int EncryptZip(TCHAR *filename, const char *password)
 			Buff2[i] = (char)add;  
 	}  
 
-	//¼ÓÃÜ²Ù×÷  
+	//åŠ å¯†æ“ä½œ  
 	//Aes aes(16, (unsigned char *)password);
 	Aes aes(password);
 	TCHAR tmp[MAX_PATH] = {0};
 
-	//½«»º´æÇøÀïÃæµÄÊı¾İ¼ÓÃÜ,·ÅÈëĞÂµÄ»º´æÇøÀïÃæ  
+	//å°†ç¼“å­˜åŒºé‡Œé¢çš„æ•°æ®åŠ å¯†,æ”¾å…¥æ–°çš„ç¼“å­˜åŒºé‡Œé¢  
 	HANDLE hNewFile = CreateFile(getNewName(filename, tmp), 
 		GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);  
 	DWORD count = 0;  
@@ -358,7 +358,7 @@ int EncryptZip(TCHAR *filename, const char *password)
 		for (int i = 0; i <=15; i++)  
 			Temp1[i] = Buff2[i + count];  
 		aes.Cipher((unsigned char*)Temp1, (unsigned char*)Temp2);  
-		//½«ĞÂ»º´æÇøµÄÊı¾İĞ´ÈëĞÂµÄÎÄ¼şÀïÃæ  
+		//å°†æ–°ç¼“å­˜åŒºçš„æ•°æ®å†™å…¥æ–°çš„æ–‡ä»¶é‡Œé¢  
 		DWORD dwSizeOfWrite = 0;  
 		WriteFile(hNewFile, Temp2, sizeof(Temp2), &dwSizeOfWrite, 0);  
 		SetFilePointer(hNewFile, 0, NULL, FILE_END);  
@@ -385,7 +385,7 @@ int DecryptZip(TCHAR *filename, const char *password)
 		return -1;  
 	}  
 
-	//»ñÈ¡ÎÄ¼ş´óĞ¡  
+	//è·å–æ–‡ä»¶å¤§å°  
 	FileSize = GetFileSize(hFile, NULL);  
 	if (FileSize == INVALID_FILE_SIZE && FileSize % 16)  
 	{  
@@ -393,13 +393,13 @@ int DecryptZip(TCHAR *filename, const char *password)
 		return 1; 
 	}  
 
-	//¶¯Ì¬·ÖÅäÄÚ´æ  
+	//åŠ¨æ€åˆ†é…å†…å­˜  
 	char* Buff1 = (char*)malloc(sizeof(char) * FileSize);  
 	char* Buff2 = (char*)malloc(sizeof(char) * FileSize);  
 	DWORD dwSizeOfRead = 0;  
 	BOOL b = ReadFile(hFile, Buff1, FileSize, &dwSizeOfRead, NULL); 
 
-	//¶ÁÈ¡ÎÄ¼şÄÚÈİ  
+	//è¯»å–æ–‡ä»¶å†…å®¹  
 	if ((dwSizeOfRead != FileSize) || (!b))  
 	{  
 		CloseHandle(hFile);  
@@ -408,11 +408,11 @@ int DecryptZip(TCHAR *filename, const char *password)
 		return 2;  
 	}  
 
-	//½âÃÜ²Ù×÷  
+	//è§£å¯†æ“ä½œ  
 	//Aes aes(16, (unsigned char *)password);  
 	Aes aes(password);
 
-	//½«»º´æÇøÀïÃæµÄÊı¾İ¼ÓÃÜ,·ÅÈëĞÂµÄ»º´æÇøÀïÃæ
+	//å°†ç¼“å­˜åŒºé‡Œé¢çš„æ•°æ®åŠ å¯†,æ”¾å…¥æ–°çš„ç¼“å­˜åŒºé‡Œé¢
 	TCHAR tmp[MAX_PATH] = {0};
 	HANDLE hNewFile = CreateFile(getNewName(filename, tmp), 
 		GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);  
@@ -426,16 +426,16 @@ int DecryptZip(TCHAR *filename, const char *password)
 		for (int i = 0; i <=15; i++)  
 			Temp1[i] = Buff1[i + count];  
 		aes.InvCipher((unsigned char*)Temp1, (unsigned char*)Temp2);  
-		if (j == FileSize / 16 - 1) //×îºóÒ»´ÎĞ´ÎÄ¼ş  
+		if (j == FileSize / 16 - 1) //æœ€åä¸€æ¬¡å†™æ–‡ä»¶  
 		{  
-			int add = (int)Temp2[15];//»ñµÃ×îºóÒ»´ÎÒªĞ´ÈëµÄ16-add¸ö×Ö½Ú  
+			int add = (int)Temp2[15];//è·å¾—æœ€åä¸€æ¬¡è¦å†™å…¥çš„16-addä¸ªå­—èŠ‚  
 			DWORD dwSizeOfWrite = 0;  
 			WriteFile(hNewFile, Temp2, sizeof(char) * (16 - add), &dwSizeOfWrite, 0);  
 			SetFilePointer(hNewFile, 0, NULL, FILE_END);  
 		}  
 		else  
 		{  
-			//½«ĞÂ»º´æÇøµÄÊı¾İĞ´ÈëĞÂµÄÎÄ¼şÀïÃæ  
+			//å°†æ–°ç¼“å­˜åŒºçš„æ•°æ®å†™å…¥æ–°çš„æ–‡ä»¶é‡Œé¢  
 			DWORD dwSizeOfWrite = 0;  
 			WriteFile(hNewFile, Temp2, sizeof(Temp2), &dwSizeOfWrite, 0);  
 			SetFilePointer(hNewFile, 0, NULL, FILE_END);  
@@ -489,21 +489,29 @@ char *U2A(const char *szSrc)
 // zipassistant -d pack.zip password
 int _tmain(int argc, _TCHAR* argv[])
 {
-	//argc = 4;
-	//argv[0] = L"tmaker.exe";
-	//argv[1] = L"-a";
-	//argv[2] = L"\"D:\\UPX Shell\\test_psd\\20130712\\1_png\\\"";
+	argc = 4;
+	argv[0] = L"tmaker.exe";
+	argv[1] = L"-a";
+	argv[2] = L"\"D:\\UPX Shell\\test_psd\\20130712\\1_png\\\"";
 	//argv[2] = L"G:\\Projects\\zipassistant\\Debug\\pkg.xcmb";
 	//argv[3] = L"G:\\Projects\\zipassistant\\Debug\\pkg";
 	//argv[3] = L"\"D:\\UPX Shell\\test_psd\\20130712\\1_png\\1.psd.png\"";
 	//argv[3] = L"page.dat";
 	//argv[3] = L"123123";
-	//argv[3] = L"ĞÂ½¨ÎÄ±¾ÎÄµµ.txt";
+	//argv[3] = L"æ–°å»ºæ–‡æœ¬æ–‡æ¡£.txt";
+	argv[3] = L"å¨´å¬­ç˜¯é¥";
+	
 
 	TCHAR opt[8] = {0}, file[2][MAX_PATH] = {0}, name[MAX_PATH] = {0};
 	HZIP hz = NULL;
 
+	setlocale(LC_CTYPE, "chs");
+
 	//printf("options: %d\n", argc);
+	//printf("%ls\n", argv[3]);
+	char *szRes = U2A("å¨´å¬­ç˜¯é¥");
+	printf("data:%s", szRes);
+	delete [] szRes;
 
 	if (3 > argc || 4 < argc)
 	{
@@ -518,8 +526,6 @@ int _tmain(int argc, _TCHAR* argv[])
 		printf("invalid options: %ls\n", opt);
 		return 1;
 	}
-
-	setlocale(LC_CTYPE, "chs");
 
 	for (int i = 2; i < argc; i++)
 	{
